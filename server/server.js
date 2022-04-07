@@ -3,7 +3,13 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 
-const { getReceipes } = require("./handlers");
+const {
+  getReceipes,
+  getIngredients,
+  getLocations,
+  getRestaurants,
+  getRestaurant,
+} = require("./handlers");
 
 const PORT = 8000;
 
@@ -26,6 +32,11 @@ express()
 
   // End points
 
-  .get("/api/get-receipe/:ingredient", getReceipes)
+  .patch("/api/get-receipes/:ingredient", getReceipes)
+  .get("/api/get-ingredients/:ingredient", getIngredients)
+
+  .get("/api/get-locations/:location", getLocations)
+  .get("/api/get-restaurants/:locationId", getRestaurants)
+  .get("/api/get-restaurant-details/:locationId", getRestaurant)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
