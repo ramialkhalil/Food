@@ -10,7 +10,7 @@ const getReceipes = async (req, res) => {
   const allergies = req.body.allergies; // array of string
   const caloriesFrom = req.body.caloriesFrom; // int number
   const caloriesTo = req.body.caloriesTo; // int number
-  const IngredientsUpTo = req.body.IngredientsUpTo; // int number
+  const IngredientsUpTo = req.body.ingredientsUpTo; // int number
 
   let url = `https://api.edamam.com/api/recipes/v2?type=public&q=${ingredient}&app_id=10880cda&app_key=e35c7e28e89152af9ab4b7a40d2d7344`;
 
@@ -64,6 +64,7 @@ const getReceipes = async (req, res) => {
   try {
     const result = await request(options);
     if (result.hits.length > 0) {
+      console.log("server test");
       res.status(200).json({ status: "200", data: result });
     } else {
       res.status(400).json({ status: 400, message: "err getting receipe" });
@@ -99,6 +100,7 @@ const getIngredients = async (req, res) => {
 };
 
 const getLocations = async (req, res) => {
+  console.log(req.params.location);
   const location = req.params.location;
 
   let url = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete";
