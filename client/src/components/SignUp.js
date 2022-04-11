@@ -1,24 +1,26 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { FoodContext } from "./FoodContext";
 
-const Login = () => {
-  const { user, setUser } = useContext(FoodContext);
+const SignUp = () => {
   const [userName, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
+  const [repeatPassword, setRepeatPassword] = useState(null);
+  const [email, setEmail] = useState(null);
   const [error, setError] = useState(null);
   const history = useHistory();
 
   const setFormData = () => {
     setUserName(document.querySelector("input[name='uname']").value);
     setPassword(document.querySelector("input[name='pass']").value);
+    setRepeatPassword(document.querySelector("input[name='psw-repeat']").value);
+    setEmail(document.querySelector("input[name='email']").value);
   };
 
-  const loginHandler = (e) => {
+  const signUpHandler = (e) => {
     e.preventDefault();
 
-    fetch(`/api/check-user`, {
+    fetch(`/api/add-user`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -26,14 +28,14 @@ const Login = () => {
       body: JSON.stringify({
         userName: userName,
         password: password,
+        repeatPassword: repeatPassword,
+        email: email,
       }),
     })
       .then((res) => res.json())
       .then((result) => {
         if (result.data) {
-          localStorage.setItem("login", JSON.stringify(result.data));
-          setUser(result.data);
-          history.push(`/profile`);
+          history.push(`/login`);
         } else if (result.status === 400) {
           console.log(result.message);
           setError(result.message);
@@ -41,31 +43,39 @@ const Login = () => {
       });
   };
 
-  const signUpHandler = (e) => {
-    e.preventDefault();
-    history.push("/signUp");
-  };
   return (
     <>
-      <FORM onChange={setFormData}>
+      <FORM onChange={setFormData} onSubmit={(e) => signUpHandler(e)}>
         <DIV>
           <label>Username </label>
-          <input type="text" name="uname" required />
+          <input type="text" name="uname" placeholder="Username" required />
         </DIV>
         <DIV>
           <label>Password </label>
-          <input type="password" name="pass" required />
+          <input type="password" name="pass" placeholder="Password" required />
+        </DIV>
+        <DIV>
+          <label>Repeat Password</label>
+          <input
+            type="password"
+            name="psw-repeat"
+            placeholder="Repeat Password"
+            required
+          />
+        </DIV>
+        <DIV>
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Email" required />
         </DIV>
         <BUTTON>
-          <button onClick={(e) => loginHandler(e)}>Login</button>
-          <button onClick={(e) => signUpHandler(e)}>SignUp</button>
+          <button>SignUp</button>
         </BUTTON>
         {error && <ERROR>{error}</ERROR>}
       </FORM>
     </>
   );
 };
-export default Login;
+export default SignUp;
 
 const ERROR = styled.div`
   display: flex;
@@ -92,11 +102,9 @@ const DIV = styled.div`
   gap: 10px;
   padding: 10px;
 `;
-
 const BUTTON = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  gap: 10px;
 `;

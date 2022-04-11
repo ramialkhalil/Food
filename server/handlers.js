@@ -1,5 +1,84 @@
 const request = require("request-promise");
-const request2 = require("request");
+
+const { v4: uuidv4 } = require("uuid");
+
+const { MongoClient } = require("mongodb");
+require("dotenv").config({ path: "./.env" });
+const { MONGO_URI } = process.env;
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+const checkUser = async (req, res) => {
+  const userName = req.body.userName;
+  const password = req.body.password;
+
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const findUser = await db
+      .collection("users")
+      .findOne({ userName: userName, password: password });
+    if (findUser) {
+      res.status(200).json({ status: 200, data: findUser });
+    } else {
+      res
+        .status(400)
+        .json({ status: 400, message: "username or password is incorrect" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
+const addUser = async (req, res) => {
+  const userName = req.body.userName;
+  const password = req.body.password;
+  const repeatPassword = req.body.repeatPassword;
+  const email = req.body.email;
+  const mailformat =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  if (!email.match(mailformat)) {
+    return res
+      .status(400)
+      .json({
+        status: 400,
+        message: "Your email doest not match the email format",
+      });
+  }
+  if (password !== repeatPassword) {
+    return res
+      .status(400)
+      .json({ status: 400, message: "check your password" });
+  }
+  const client = new MongoClient(MONGO_URI, options);
+  const _id = uuidv4();
+  const body = {
+    _id: _id,
+    userName: userName,
+    password: password,
+    email: email,
+  };
+
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const addUser = await db.collection("users").insertOne(body);
+    if (addUser) {
+      res.status(200).json({ status: 200, data: addUser });
+    } else {
+      res.status(400).json({ status: 400, message: "err adding user" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
 
 const getReceipes = async (req, res) => {
   const ingredient = req.params.ingredient;
@@ -201,4 +280,6 @@ module.exports = {
   getLocations,
   getRestaurants,
   getRestaurant,
+  checkUser,
+  addUser,
 };

@@ -9,6 +9,8 @@ const {
   getLocations,
   getRestaurants,
   getRestaurant,
+  checkUser,
+  addUser,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -31,6 +33,9 @@ express()
   .use(express.json())
 
   // End points
+
+  .patch("/api/check-user", checkUser)
+  .patch("/api/add-user", addUser)
 
   .patch("/api/get-receipes/:ingredient", getReceipes)
   .get("/api/get-ingredients/:ingredient", getIngredients)

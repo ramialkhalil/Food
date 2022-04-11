@@ -80,7 +80,6 @@ const AllReceipes = () => {
         if (result.data) {
           console.log("test2");
           sessionStorage.setItem("receipes", JSON.stringify(result.data));
-          //setResult(result.data);
           history.push(`/receipes/${ingredient}`);
         } else if (result.status === 400) {
           console.log(result.message);
