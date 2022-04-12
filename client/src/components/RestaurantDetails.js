@@ -1,10 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { FcLike } from "react-icons/fc";
+import { FcLikePlaceholder } from "react-icons/fc";
+import { FoodContext } from "./FoodContext";
 
 const RestaurantDetails = () => {
-  const { restaurantId } = useParams();
+  const { AddRestaurantToWishList, user, reload, removeRestaurantFromList } =
+    useContext(FoodContext);
+  const { restaurantId, locationId } = useParams();
   const [restaurant, setRestaurant] = useState(null);
+  const [inlist, setInlist] = useState(null);
 
   useEffect(() => {
     fetch(`/api/get-restaurant-details/${restaurantId}`)
@@ -16,12 +22,55 @@ const RestaurantDetails = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (user && restaurant) {
+      const restaurantFilter = user.restaurants.filter((element) => {
+        return element.restaurantName === restaurant.name;
+      });
+      console.log(restaurantFilter);
+      if (!!restaurantFilter.length) {
+        setInlist("true");
+      } else {
+        setInlist(null);
+      }
+    }
+  }, [restaurant, user]);
+
+  if (!restaurant) {
+    return <></>;
+  }
   return (
     <>
       {restaurant ? (
         <Wrapper>
           <HEADER>
             <div>{restaurant.name}</div>
+            {user &&
+              (inlist === "true" ? (
+                <div
+                  onClick={() =>
+                    removeRestaurantFromList(
+                      restaurant.name,
+                      locationId,
+                      restaurantId
+                    )
+                  }
+                >
+                  <FcLike />
+                </div>
+              ) : (
+                <div
+                  onClick={() =>
+                    AddRestaurantToWishList(
+                      restaurant.name,
+                      locationId,
+                      restaurantId
+                    )
+                  }
+                >
+                  <FcLikePlaceholder />
+                </div>
+              ))}
           </HEADER>
           <BODY>
             <Image>
@@ -114,6 +163,7 @@ const HEADER = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   color: black;
   font-size: 32px;
   font-weight: bold;
@@ -124,5 +174,9 @@ const BODY = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin: 10px;
+`;
+
+const ICON = styled(FcLike)`
+  width: 100px;
 `;
 export default RestaurantDetails;

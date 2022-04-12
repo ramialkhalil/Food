@@ -11,6 +11,9 @@ const {
   getRestaurant,
   checkUser,
   addUser,
+  addRestaurantToUser,
+  removeRestaurantFromUser,
+  getUser,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -36,6 +39,9 @@ express()
 
   .patch("/api/check-user", checkUser)
   .patch("/api/add-user", addUser)
+  .patch("/api/get-user", getUser)
+  .patch("/api/addRestaurantToUser", addRestaurantToUser)
+  .patch("/api/removeRestaurantFromUser", removeRestaurantFromUser)
 
   .patch("/api/get-receipes/:ingredient", getReceipes)
   .get("/api/get-ingredients/:ingredient", getIngredients)

@@ -35,6 +35,30 @@ const checkUser = async (req, res) => {
     client.close();
   }
 };
+
+const getUser = async (req, res) => {
+  const userName = req.body.userName;
+
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const findUser = await db
+      .collection("users")
+      .findOne({ userName: userName });
+    if (findUser) {
+      res.status(200).json({ status: 200, data: findUser });
+    } else {
+      res.status(400).json({ status: 400, message: "username is incorrect" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
+
 const addUser = async (req, res) => {
   const userName = req.body.userName;
   const password = req.body.password;
@@ -43,12 +67,10 @@ const addUser = async (req, res) => {
   const mailformat =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   if (!email.match(mailformat)) {
-    return res
-      .status(400)
-      .json({
-        status: 400,
-        message: "Your email doest not match the email format",
-      });
+    return res.status(400).json({
+      status: 400,
+      message: "Your email doest not match the email format",
+    });
   }
   if (password !== repeatPassword) {
     return res
@@ -72,6 +94,94 @@ const addUser = async (req, res) => {
       res.status(200).json({ status: 200, data: addUser });
     } else {
       res.status(400).json({ status: 400, message: "err adding user" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
+
+const addRestaurantToUser = async (req, res) => {
+  const userName = req.body.userName;
+  const restaurantName = req.body.restaurantName;
+  const locationId = req.body.locationId;
+  const restaurantId = req.body.restaurantId;
+
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const findUser = await db
+      .collection("users")
+      .findOne({ userName: userName });
+    if (findUser) {
+      // { $push: { scores: { $each: [ 90, 92, 85 ] } } }
+      const updateUser = await db.collection("users").updateOne(
+        { userName: userName },
+        {
+          $push: {
+            restaurants: {
+              $each: [
+                {
+                  restaurantName: restaurantName,
+                  locationId: locationId,
+                  restaurantId: restaurantId,
+                },
+              ],
+            },
+          },
+        }
+      );
+      if (updateUser) {
+        res.status(200).json({ status: 200, data: updateUser });
+      } else {
+        res.status(400).json({ status: 400, message: "err update user" });
+      }
+    } else {
+      res.status(400).json({ status: 400, message: "err finding user" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
+
+const removeRestaurantFromUser = async (req, res) => {
+  const userName = req.body.userName;
+  const restaurantName = req.body.restaurantName;
+  const locationId = req.body.locationId;
+  const restaurantId = req.body.restaurantId;
+
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const findUser = await db
+      .collection("users")
+      .findOne({ userName: userName });
+    if (findUser) {
+      // { $push: { scores: { $each: [ 90, 92, 85 ] } } }
+      const updateUser = await db.collection("users").updateOne(
+        { userName: userName },
+        {
+          $pull: {
+            restaurants: {
+              restaurantName: restaurantName,
+              locationId: locationId,
+              restaurantId: restaurantId,
+            },
+          },
+        }
+      );
+      if (updateUser) {
+        res.status(200).json({ status: 200, data: updateUser });
+      } else {
+        res.status(400).json({ status: 400, message: "err update user" });
+      }
+    } else {
+      res.status(400).json({ status: 400, message: "err finding user" });
     }
   } catch (err) {
     res.status(500).json({ status: 500, message: "unknown error" });
@@ -190,7 +300,7 @@ const getLocations = async (req, res) => {
     qs: { query: `${location}`, lang: "en_US", units: "km" },
     headers: {
       "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-      "X-RapidAPI-Key": "42e03287bamsh0f86482a7918be6p1bd974jsn98654b371017",
+      "X-RapidAPI-Key": "003d0a2ecbmsh570c270d01307ecp1002b8jsnfb351b5375eb",
     },
     json: true,
   };
@@ -225,7 +335,7 @@ const getRestaurants = async (req, res) => {
     },
     headers: {
       "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-      "X-RapidAPI-Key": "42e03287bamsh0f86482a7918be6p1bd974jsn98654b371017",
+      "X-RapidAPI-Key": "003d0a2ecbmsh570c270d01307ecp1002b8jsnfb351b5375eb",
     },
     json: true,
   };
@@ -257,7 +367,7 @@ const getRestaurant = async (req, res) => {
     },
     headers: {
       "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-      "X-RapidAPI-Key": "42e03287bamsh0f86482a7918be6p1bd974jsn98654b371017",
+      "X-RapidAPI-Key": "003d0a2ecbmsh570c270d01307ecp1002b8jsnfb351b5375eb",
     },
     json: true,
   };
@@ -282,4 +392,7 @@ module.exports = {
   getRestaurant,
   checkUser,
   addUser,
+  addRestaurantToUser,
+  removeRestaurantFromUser,
+  getUser,
 };
