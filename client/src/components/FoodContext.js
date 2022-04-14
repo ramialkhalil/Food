@@ -30,11 +30,7 @@ const FoodProvider = ({ children }) => {
       });
   };
 
-  const AddRestaurantToWishList = (
-    restaurantName,
-    locationId,
-    restaurantId
-  ) => {
+  const AddRestaurantToWishList = (restaurant) => {
     if (user) {
       console.log(user);
       fetch(`/api/addRestaurantToUser`, {
@@ -44,9 +40,7 @@ const FoodProvider = ({ children }) => {
         },
         body: JSON.stringify({
           userName: user.userName,
-          restaurantName: restaurantName,
-          locationId: locationId,
-          restaurantId: restaurantId,
+          restaurant: restaurant,
         }),
       })
         .then((res) => res.json())
@@ -67,11 +61,7 @@ const FoodProvider = ({ children }) => {
     }
   };
 
-  const removeRestaurantFromList = (
-    restaurantName,
-    locationId,
-    restaurantId
-  ) => {
+  const removeRestaurantFromList = (restaurant) => {
     if (user) {
       console.log(user);
       fetch(`/api/removeRestaurantFromUser`, {
@@ -81,9 +71,7 @@ const FoodProvider = ({ children }) => {
         },
         body: JSON.stringify({
           userName: user.userName,
-          restaurantName: restaurantName,
-          locationId: locationId,
-          restaurantId: restaurantId,
+          name: restaurant.name,
         }),
       })
         .then((res) => res.json())
@@ -92,6 +80,50 @@ const FoodProvider = ({ children }) => {
             console.log(result);
             getUser();
             //setReload(!reload);
+          }
+        });
+    }
+  };
+  const AddReceipeToList = (receipe) => {
+    if (user) {
+      console.log(user);
+      fetch(`/api/addReceipeToUser`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName: user.userName,
+          receipe: receipe,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          getUser();
+          setReload(!reload);
+        });
+    }
+  };
+
+  const removeReceipeFromList = (receipe) => {
+    if (user) {
+      console.log(user);
+      fetch(`/api/removeReceipeFromUser`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName: user.userName,
+          label: receipe.label,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.data) {
+            console.log(result);
+            getUser();
           }
         });
     }
@@ -106,6 +138,8 @@ const FoodProvider = ({ children }) => {
         reload,
         setReload,
         removeRestaurantFromList,
+        AddReceipeToList,
+        removeReceipeFromList,
       }}
     >
       {children}

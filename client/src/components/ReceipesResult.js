@@ -20,7 +20,7 @@ const ReceipesResult = () => {
       </HEADER>
       <Wrapper>
         {search.hits.map((element) => {
-          return <Receipe element={element} />;
+          return <Receipe element={element.recipe} />;
         })}
       </Wrapper>
     </>

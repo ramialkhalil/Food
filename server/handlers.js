@@ -84,6 +84,8 @@ const addUser = async (req, res) => {
     userName: userName,
     password: password,
     email: email,
+    restaurants: [],
+    receipes: [],
   };
 
   try {
@@ -104,10 +106,7 @@ const addUser = async (req, res) => {
 
 const addRestaurantToUser = async (req, res) => {
   const userName = req.body.userName;
-  const restaurantName = req.body.restaurantName;
-  const locationId = req.body.locationId;
-  const restaurantId = req.body.restaurantId;
-
+  const restaurant = req.body.restaurant;
   const client = new MongoClient(MONGO_URI, options);
   try {
     await client.connect();
@@ -122,13 +121,7 @@ const addRestaurantToUser = async (req, res) => {
         {
           $push: {
             restaurants: {
-              $each: [
-                {
-                  restaurantName: restaurantName,
-                  locationId: locationId,
-                  restaurantId: restaurantId,
-                },
-              ],
+              $each: [restaurant],
             },
           },
         }
@@ -150,9 +143,7 @@ const addRestaurantToUser = async (req, res) => {
 
 const removeRestaurantFromUser = async (req, res) => {
   const userName = req.body.userName;
-  const restaurantName = req.body.restaurantName;
-  const locationId = req.body.locationId;
-  const restaurantId = req.body.restaurantId;
+  const name = req.body.name;
 
   const client = new MongoClient(MONGO_URI, options);
   try {
@@ -168,9 +159,7 @@ const removeRestaurantFromUser = async (req, res) => {
         {
           $pull: {
             restaurants: {
-              restaurantName: restaurantName,
-              locationId: locationId,
-              restaurantId: restaurantId,
+              name: name,
             },
           },
         }
@@ -187,6 +176,105 @@ const removeRestaurantFromUser = async (req, res) => {
     res.status(500).json({ status: 500, message: "unknown error" });
   } finally {
     client.close();
+  }
+};
+
+const addReceipeToUser = async (req, res) => {
+  const userName = req.body.userName;
+  const receipe = req.body.receipe;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const findUser = await db
+      .collection("users")
+      .findOne({ userName: userName });
+    if (findUser) {
+      // { $push: { scores: { $each: [ 90, 92, 85 ] } } }
+      const updateUser = await db.collection("users").updateOne(
+        { userName: userName },
+        {
+          $push: {
+            receipes: {
+              $each: [receipe],
+            },
+          },
+        }
+      );
+      if (updateUser) {
+        res.status(200).json({ status: 200, data: updateUser });
+      } else {
+        res.status(400).json({ status: 400, message: "err update user" });
+      }
+    } else {
+      res.status(400).json({ status: 400, message: "err finding user" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
+
+const removeReceipeFromUser = async (req, res) => {
+  const userName = req.body.userName;
+  const label = req.body.label;
+  console.log(label);
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("food");
+    const findUser = await db
+      .collection("users")
+      .findOne({ userName: userName });
+    if (findUser) {
+      const updateUser = await db.collection("users").updateOne(
+        { userName: userName },
+        {
+          $pull: {
+            receipes: {
+              label: label,
+            },
+          },
+        }
+      );
+      if (updateUser) {
+        res.status(200).json({ status: 200, data: updateUser });
+      } else {
+        res.status(400).json({ status: 400, message: "err update user" });
+      }
+    } else {
+      res.status(400).json({ status: 400, message: "err finding user" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
+  } finally {
+    client.close();
+  }
+};
+
+const getReceipe = async (req, res) => {
+  const receipeId = req.params.receipeId;
+  let url = `https://api.edamam.com/api/recipes/v2/${receipeId}?type=public&app_id=10880cda&app_key=e35c7e28e89152af9ab4b7a40d2d7344`;
+  const options = {
+    method: "GET",
+    url: url,
+    headers: {
+      Accept: "application/json",
+    },
+    json: true,
+  };
+
+  try {
+    const result = await request(options);
+    if (result) {
+      console.log("server test");
+      res.status(200).json({ status: "200", data: result });
+    } else {
+      res.status(400).json({ status: 400, message: "err getting receipe" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: "unknown error" });
   }
 };
 
@@ -395,4 +483,7 @@ module.exports = {
   addRestaurantToUser,
   removeRestaurantFromUser,
   getUser,
+  addReceipeToUser,
+  removeReceipeFromUser,
+  getReceipe,
 };

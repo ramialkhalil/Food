@@ -25,7 +25,7 @@ const RestaurantDetails = () => {
   useEffect(() => {
     if (user && restaurant) {
       const restaurantFilter = user.restaurants.filter((element) => {
-        return element.restaurantName === restaurant.name;
+        return element.name === restaurant.name;
       });
       console.log(restaurantFilter);
       if (!!restaurantFilter.length) {
@@ -47,27 +47,11 @@ const RestaurantDetails = () => {
             <div>{restaurant.name}</div>
             {user &&
               (inlist === "true" ? (
-                <div
-                  onClick={() =>
-                    removeRestaurantFromList(
-                      restaurant.name,
-                      locationId,
-                      restaurantId
-                    )
-                  }
-                >
+                <div onClick={() => removeRestaurantFromList(restaurant)}>
                   <FcLike />
                 </div>
               ) : (
-                <div
-                  onClick={() =>
-                    AddRestaurantToWishList(
-                      restaurant.name,
-                      locationId,
-                      restaurantId
-                    )
-                  }
-                >
+                <div onClick={() => AddRestaurantToWishList(restaurant)}>
                   <FcLikePlaceholder />
                 </div>
               ))}

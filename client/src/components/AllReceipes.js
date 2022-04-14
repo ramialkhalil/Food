@@ -49,14 +49,6 @@ const AllReceipes = () => {
 
   const doneHandler = (e) => {
     e.preventDefault();
-    console.log("new value:", diet);
-    console.log("new value:", dishType);
-    console.log("new value:", mealType);
-    console.log("new value:", cuisineType);
-    console.log("new value:", allergies);
-    console.log("new value:", caloriesFrom);
-    console.log("new value:", caloriesTo);
-    console.log("new value:", ingredientsUpTo);
 
     fetch(`/api/get-receipes/${ingredient}`, {
       method: "PATCH",
@@ -89,202 +81,411 @@ const AllReceipes = () => {
 
   return (
     <>
-      <div>{`Find top receipes for ${ingredient}`}</div>
       <FORM onChange={setFormData}>
-        <DIV>
-          <h2>Calories</h2>
-          <label>From</label>
-          <input min="1" type="number" id="from" />
-          <label>To</label>
-          <input min="1" type="number" id="to" />
-        </DIV>
-        <DIV>
-          <h2>number of ingridient</h2>
-          <label>Up to</label>
-          <input min="1" type="number" id="upto" />
-        </DIV>
-        <DIV>
-          <h2>Diet</h2>
-          <input type="checkbox" name="diet" value="balanced" />
-          <label>Balanced</label>
-          <input type="checkbox" name="diet" value="high-fiber" />
-          <label>High-Fiber</label>
-          <input type="checkbox" name="diet" value="high-protein" />
-          <label>High-Protein</label>
-          <input type="checkbox" name="diet" value="low-carb" />
-          <label>Low-Carb</label>
-          <input type="checkbox" name="diet" value="low-fat" />
-          <label>Low-Fat</label>
-          <input type="checkbox" name="diet" value="low-sodium" />
-          <label>Low-Sodium</label>
-        </DIV>
-        <DIV>
-          <h2>Dish Type</h2>
-          <input type="checkbox" name="dishType" value="Alcohol-cocktail" />
-          <label>Alcohol-cocktail</label>
-          <input type="checkbox" name="dishType" value="Biscuits and cookies" />
-          <label>Biscuits and cookies</label>
-          <input type="checkbox" name="dishType" value="Bread" />
-          <label>Bread</label>
-          <input type="checkbox" name="dishType" value="Cereals" />
-          <label>Cereals</label>
-          <input
-            type="checkbox"
-            name="dishType"
-            value="Condiments and sauces"
-          />
-          <label>Condiments and sauces</label>
-          <input type="checkbox" name="dishType" value="Drinks" />
-          <label>Drinks</label>
-          <input type="checkbox" name="dishType" value="Desserts" />
-          <label>Desserts</label>
-          <input type="checkbox" name="dishType" value="Egg" />
-          <label>Egg</label>
-          <input type="checkbox" name="dishType" value="Main course" />
-          <label>Main course</label>
-          <input type="checkbox" name="dishType" value="Omelet" />
-          <label>Omelet</label>
-          <input type="checkbox" name="dishType" value="Pancake" />
-          <label>Pancake</label>
-          <input type="checkbox" name="dishType" value="Preps" />
-          <label>Preps</label>
-          <input type="checkbox" name="dishType" value="Preserve" />
-          <label>Preserve</label>
-          <input type="checkbox" name="dishType" value="Salad" />
-          <label>Salad</label>
-          <input type="checkbox" name="dishType" value="Sandwiches" />
-          <label>Sandwiches</label>
-          <input type="checkbox" name="dishType" value="Soup" />
-          <label>Soup</label>
-          <input type="checkbox" name="dishType" value="Starter" />
-          <label>Starter</label>
-        </DIV>
-        <DIV>
-          <h2>Meal Type</h2>
-          <input type="checkbox" name="mealType" value="Breakfast" />
-          <label>Breakfast</label>
-          <input type="checkbox" name="mealType" value="Lunch" />
-          <label>Lunch</label>
-          <input type="checkbox" name="mealType" value="Dinner" />
-          <label>Dinner</label>
-          <input type="checkbox" name="mealType" value="Snack" />
-          <label>Snack</label>
-          <input type="checkbox" name="mealType" value="Teatime" />
-          <label>Teatime</label>
-        </DIV>
-        <DIV>
-          <h2>Cuisine Types</h2>
-          <input type="checkbox" name="cuisineType" value="American" />
-          <label>American</label>
-          <input type="checkbox" name="cuisineType" value="Asian" />
-          <label>Asian</label>
-          <input type="checkbox" name="cuisineType" value="British" />
-          <label>British</label>
-          <input type="checkbox" name="cuisineType" value="Caribbean" />
-          <label>Caribbean</label>
-          <input type="checkbox" name="cuisineType" value="Central Europe" />
-          <label>Central Europe</label>
-          <input type="checkbox" name="cuisineType" value="Chinese" />
-          <label>Chinese</label>
-          <input type="checkbox" name="cuisineType" value="Eastern Europe" />
-          <label>Eastern Europe</label>
-          <input type="checkbox" name="cuisineType" value="French" />
-          <label>French</label>
-          <input type="checkbox" name="cuisineType" value="Indian" />
-          <label>Indian</label>
-          <input type="checkbox" name="cuisineType" value="Italian" />
-          <label>Italian</label>
-          <input type="checkbox" name="cuisineType" value="Japanese" />
-          <label>Japanese</label>
-          <input type="checkbox" name="cuisineType" value="Kosher" />
-          <label>Kosher</label>
-          <input type="checkbox" name="cuisineType" value="Mediterranean" />
-          <label>Mediterranean</label>
-          <input type="checkbox" name="cuisineType" value="Mexican" />
-          <label>Mexican</label>
-          <input type="checkbox" name="cuisineType" value="Middle Eastern" />
-          <label>Middle Eastern</label>
-          <input type="checkbox" name="cuisineType" value="Nordic" />
-          <label>Nordic</label>
-          <input type="checkbox" name="cuisineType" value="South American" />
-          <label>South American</label>
-          <input type="checkbox" name="cuisineType" value="South East Asian" />
-          <label>South East Asian</label>
-        </DIV>
-        <DIV>
-          <h2>allergies</h2>
-          <input type="checkbox" name="allergie" value="alcohol-cocktail" />
-          <label>Alcohol-Cocktail</label>
-          <input type="checkbox" name="allergie" value="alcohol-free" />
-          <label>Alcohol-Free</label>
-          <input type="checkbox" name="allergie" value="celery-free" />
-          <label>Celery-Free</label>
-          <input type="checkbox" name="allergie" value="crustacean-free" />
-          <label>Crustcean-Free</label>
-          <input type="checkbox" name="allergie" value="dairy-free" />
-          <label>Dairy-Free</label>
-          <input type="checkbox" name="allergie" value="DASH" />
-          <label>DASH</label>
-          <input type="checkbox" name="allergie" value="egg-free" />
-          <label>Egg-Free</label>
-          <input type="checkbox" name="allergie" value="fish-free" />
-          <label>Fish-Free</label>
-          <input type="checkbox" name="allergie" value="fodmap-free" />
-          <label>FODMAP-Free</label>
-          <input type="checkbox" name="allergie" value="gluten-free" />
-          <label>Gluten-Free</label>
-          <input type="checkbox" name="allergie" value="immuno-supportive" />
-          <label>Immuno-Supportive</label>
-          <input type="checkbox" name="allergie" value="keto-friendly" />
-          <label>Keto-Friendly</label>
-          <input type="checkbox" name="allergie" value="kidney-friendly" />
-          <label>Kidney-Friendly</label>
-          <input type="checkbox" name="allergie" value="kosher" />
-          <label>Kosher</label>
-          <input type="checkbox" name="allergie" value="low-potassium" />
-          <label>Low Potassium</label>
-          <input type="checkbox" name="allergie" value="low-sugar" />
-          <label>Low Sugar</label>
-          <input type="checkbox" name="allergie" value="lupine-free" />
-          <label>Lupine-Free</label>
-          <input type="checkbox" name="allergie" value="Mediterranean" />
-          <label>Mediterranean</label>
-          <input type="checkbox" name="allergie" value="mollusk-free" />
-          <label>Mollusk-Free</label>
-          <input type="checkbox" name="allergie" value="mustard-free" />
-          <label>Mustard-Free</label>
-          <input type="checkbox" name="allergie" value="No-oil-added" />
-          <label>No oil added</label>
-          <input type="checkbox" name="allergie" value="paleo" />
-          <label>Paleo</label>
-          <input type="checkbox" name="allergie" value="peanut-free" />
-          <label>Peanut-Free</label>
-          <input type="checkbox" name="allergie" value="pecatarian" />
-          <label>Pescatarian</label>
-          <input type="checkbox" name="allergie" value="pork-free" />
-          <label>Pork-Free</label>
-          <input type="checkbox" name="allergie" value="red-meat-free" />
-          <label>Red-Meat-Free</label>
-          <input type="checkbox" name="allergie" value="sesame-free" />
-          <label>Sesame-Free</label>
-          <input type="checkbox" name="allergie" value="shellfish-free" />
-          <label>Shellfish-Free</label>
-          <input type="checkbox" name="allergie" value="soy-free" />
-          <label>Soy-Free</label>
-          <input type="checkbox" name="allergie" value="sugar-conscious" />
-          <label>Sugar-Conscious</label>
-          <input type="checkbox" name="allergie" value="sulfite-free" />
-          <label>Sulfite-Free</label>
-          <input type="checkbox" name="allergie" value="tree-nut-free" />
-          <label>Tree-Nut-Free</label>
-          <input type="checkbox" name="allergie" value="vegan" />
-          <label>Vegan</label>
-          <input type="checkbox" name="allergie" value="vegetarian" />
-          <label>Vegetarian</label>
-          <input type="checkbox" name="allergie" value="wheat-free" />
-          <label>Wheat-Free</label>
-        </DIV>
-        <button onClick={(e) => doneHandler(e)}>Done</button>
+        <HEADER>
+          <div>{`${ingredient}`}</div>
+          <button onClick={(e) => doneHandler(e)}>Find receipes</button>
+        </HEADER>
+        <BODY>
+          <DIV>
+            <h2>Calories</h2>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <SUBDIV>
+                <label>From</label>
+                <input
+                  min="1"
+                  type="number"
+                  id="from"
+                  style={{ width: "60px" }}
+                />
+              </SUBDIV>
+              <SUBDIV>
+                <label>To</label>
+                <input
+                  min="1"
+                  type="number"
+                  id="to"
+                  style={{ width: "60px" }}
+                />
+              </SUBDIV>
+            </div>
+            <h2>Diet</h2>
+            <SUBDIV>
+              <input type="checkbox" name="diet" value="balanced" />
+              <label>Balanced</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="diet" value="high-fiber" />
+              <label>High-Fiber</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="diet" value="high-protein" />
+              <label>High-Protein</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="diet" value="low-carb" />
+              <label>Low-Carb</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="diet" value="low-fat" />
+              <label>Low-Fat</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="diet" value="low-sodium" />
+              <label>Low-Sodium</label>
+            </SUBDIV>
+            <h2>Dish Type</h2>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Alcohol-cocktail" />
+              <label>Alcohol-cocktail</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="dishType"
+                value="Biscuits and cookies"
+              />
+              <label>Biscuits and cookies</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Bread" />
+              <label>Bread</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Cereals" />
+              <label>Cereals</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="dishType"
+                value="Condiments and sauces"
+              />
+              <label>Condiments and sauces</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Drinks" />
+              <label>Drinks</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Desserts" />
+              <label>Desserts</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Egg" />
+              <label>Egg</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Main course" />
+              <label>Main course</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Omelet" />
+              <label>Omelet</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Pancake" />
+              <label>Pancake</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Preps" />
+              <label>Preps</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Preserve" />
+              <label>Preserve</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Salad" />
+              <label>Salad</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Sandwiches" />
+              <label>Sandwiches</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Soup" />
+              <label>Soup</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="dishType" value="Starter" />
+              <label>Starter</label>
+            </SUBDIV>
+          </DIV>
+          <DIV>
+            <h2>Number of Ingridients</h2>
+            <SUBDIV>
+              <label>Up to</label>
+              <input
+                min="1"
+                type="number"
+                id="upto"
+                style={{ width: "60px" }}
+              />
+            </SUBDIV>
+            <h2>Meal Type</h2>
+            <SUBDIV>
+              <input type="checkbox" name="mealType" value="Breakfast" />
+              <label>Breakfast</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="mealType" value="Lunch" />
+              <label>Lunch</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="mealType" value="Dinner" />
+              <label>Dinner</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="mealType" value="Snack" />
+              <label>Snack</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="mealType" value="Teatime" />
+              <label>Teatime</label>
+            </SUBDIV>
+            <h2>Cuisine Types</h2>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="American" />
+              <label>American</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Asian" />
+              <label>Asian</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="British" />
+              <label>British</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Caribbean" />
+              <label>Caribbean</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="cuisineType"
+                value="Central Europe"
+              />
+              <label>Central Europe</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Chinese" />
+              <label>Chinese</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="cuisineType"
+                value="Eastern Europe"
+              />
+              <label>Eastern Europe</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="French" />
+              <label>French</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Indian" />
+              <label>Indian</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Italian" />
+              <label>Italian</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Japanese" />
+              <label>Japanese</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Kosher" />
+              <label>Kosher</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Mediterranean" />
+              <label>Mediterranean</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Mexican" />
+              <label>Mexican</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="cuisineType"
+                value="Middle Eastern"
+              />
+              <label>Middle Eastern</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="cuisineType" value="Nordic" />
+              <label>Nordic</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="cuisineType"
+                value="South American"
+              />
+              <label>South American</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="cuisineType"
+                value="South East Asian"
+              />
+              <label>South East Asian</label>
+            </SUBDIV>
+          </DIV>
+          <DIV>
+            <h2>Allergie</h2>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="alcohol-cocktail" />
+              <label>Alcohol-Cocktail</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="alcohol-free" />
+              <label>Alcohol-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="celery-free" />
+              <label>Celery-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="crustacean-free" />
+              <label>Crustcean-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="dairy-free" />
+              <label>Dairy-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="DASH" />
+              <label>DASH</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="egg-free" />
+              <label>Egg-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="fish-free" />
+              <label>Fish-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="fodmap-free" />
+              <label>FODMAP-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="gluten-free" />
+              <label>Gluten-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input
+                type="checkbox"
+                name="allergie"
+                value="immuno-supportive"
+              />
+              <label>Immuno-Supportive</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="keto-friendly" />
+              <label>Keto-Friendly</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="kidney-friendly" />
+              <label>Kidney-Friendly</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="kosher" />
+              <label>Kosher</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="low-potassium" />
+              <label>Low Potassium</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="low-sugar" />
+              <label>Low Sugar</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="lupine-free" />
+              <label>Lupine-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="Mediterranean" />
+              <label>Mediterranean</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="mollusk-free" />
+              <label>Mollusk-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="mustard-free" />
+              <label>Mustard-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="No-oil-added" />
+              <label>No oil added</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="paleo" />
+              <label>Paleo</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="peanut-free" />
+              <label>Peanut-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="pecatarian" />
+              <label>Pescatarian</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="pork-free" />
+              <label>Pork-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="red-meat-free" />
+              <label>Red-Meat-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="sesame-free" />
+              <label>Sesame-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="shellfish-free" />
+              <label>Shellfish-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="soy-free" />
+              <label>Soy-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="sugar-conscious" />
+              <label>Sugar-Conscious</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="sulfite-free" />
+              <label>Sulfite-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="tree-nut-free" />
+              <label>Tree-Nut-Free</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="vegan" />
+              <label>Vegan</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="vegetarian" />
+              <label>Vegetarian</label>
+            </SUBDIV>
+            <SUBDIV>
+              <input type="checkbox" name="allergie" value="wheat-free" />
+              <label>Wheat-Free</label>
+            </SUBDIV>
+          </DIV>
+        </BODY>
       </FORM>
     </>
   );
@@ -293,12 +494,42 @@ export default AllReceipes;
 
 const FORM = styled.form`
   display: flex;
-  flex-wrap: wrap;
-  background-color: whitesmoke;
-  gap: 20px;
+  flex-direction: column;
+  margin: 10px;
+  height: 100vh;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 `;
+
+const BODY = styled.div`
+  display: flex;
+`;
+
 const DIV = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;
+  background-color: whitesmoke;
+  height: 100%;
+  padding: 10px;
+`;
+
+const SUBDIV = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const HEADER = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: black;
+  font-size: 32px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  background-color: whitesmoke;
 `;
