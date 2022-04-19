@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Receipes = () => {
   const [ingredient, setIngredient] = useState(null);
@@ -27,19 +27,31 @@ const Receipes = () => {
     history.push(`/find-receipes/${ingredient}`);
   };
 
-  console.log(ingredients);
-
   return (
     <>
       <FORM>
         <input
+          required
           type="text"
           placeholder="ingredient"
           value={ingredient}
           onChange={(e) => handleChange(e.target.value)}
         />
-        <button onClick={(e) => clickHandler(e)}>Find ingredient</button>
-        <button onClick={(e) => receipeHandler(e)}>Find receipes</button>
+        {!ingredient ? (
+          <BUTTONDIV>
+            <BUTTON disabled onClick={(e) => clickHandler(e)}>
+              Find ingredient
+            </BUTTON>
+            <BUTTON disabled onClick={(e) => receipeHandler(e)}>
+              Find recipes
+            </BUTTON>
+          </BUTTONDIV>
+        ) : (
+          <BUTTONDIV>
+            <BUTTON onClick={(e) => clickHandler(e)}>Find ingredient</BUTTON>
+            <BUTTON onClick={(e) => receipeHandler(e)}>Find recipes</BUTTON>
+          </BUTTONDIV>
+        )}
       </FORM>
       {!!ingredients.length && (
         <Wrapper>
@@ -53,6 +65,25 @@ const Receipes = () => {
 };
 export default Receipes;
 
+const BUTTONDIV = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const BUTTON = styled.button`
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: green;
+  border: solid green;
+  border-radius: 10px;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+`;
+
 const FORM = styled.form`
   display: flex;
   gap: 10px;
@@ -61,14 +92,4 @@ const FORM = styled.form`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const LINK = styled(Link)`
-  color: black;
-  text-decoration: none;
-  font-size: 16px;
-  opacity: 0.5;
-  &:hover {
-    opacity: 1;
-  }
 `;

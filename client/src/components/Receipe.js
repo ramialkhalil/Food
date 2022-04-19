@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Receipe = ({ element }) => {
   const receipeId = element.uri.split("_");
+
   return (
     <>
       <DIV>
         <SUBDIV>
-          <img src={element.images?.SMALL?.url} />
+          <img src={element.images?.SMALL?.url} alt={element.label} />
         </SUBDIV>
         <SUBDIV>
           <LINK to={`/receipe-details/${receipeId[1]}`}>{element.label}</LINK>
@@ -23,7 +23,7 @@ const Receipe = ({ element }) => {
         </SUBDIV>
         <SUBDIV>
           <b>calories: </b>
-          <div>{element.calories}</div>
+          <div>{element.calories.toFixed(2)}</div>
         </SUBDIV>
         <SUBDIV>
           <b>dish type: </b>
@@ -50,15 +50,28 @@ const DIV = styled.div`
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  width: 300px;
-  height: 350px;
-  background-color: whitesmoke;
+  width: 500px;
+  height: 400px;
+  background-color: #8fbc8f;
+  color: white;
+  border-radius: 10px;
 `;
 
 const LINK = styled(Link)`
-  color: black;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
-  padding-left: 5px;
+  color: white;
+  background-color: green;
+  border: solid green;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 10px;
+  box-shadow: inset 0 0 0 0 green;
+  transition: color 0.9s ease-out, box-shadow 0.9s ease-out;
+  &:hover {
+    box-shadow: inset 600px 0 0 0 white;
+    color: green;
+  }
 `;

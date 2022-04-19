@@ -219,7 +219,6 @@ const addReceipeToUser = async (req, res) => {
 const removeReceipeFromUser = async (req, res) => {
   const userName = req.body.userName;
   const label = req.body.label;
-  console.log(label);
   const client = new MongoClient(MONGO_URI, options);
   try {
     await client.connect();
@@ -268,7 +267,6 @@ const getReceipe = async (req, res) => {
   try {
     const result = await request(options);
     if (result) {
-      console.log("server test");
       res.status(200).json({ status: "200", data: result });
     } else {
       res.status(400).json({ status: 400, message: "err getting receipe" });
@@ -280,14 +278,14 @@ const getReceipe = async (req, res) => {
 
 const getReceipes = async (req, res) => {
   const ingredient = req.params.ingredient;
-  const diet = req.body.diet; // array of string
-  const dishType = req.body.dishType; // array of string
-  const mealType = req.body.mealType; // array o string
-  const cuisineType = req.body.cuisineType; // array of string
-  const allergies = req.body.allergies; // array of string
-  const caloriesFrom = req.body.caloriesFrom; // int number
-  const caloriesTo = req.body.caloriesTo; // int number
-  const IngredientsUpTo = req.body.ingredientsUpTo; // int number
+  const diet = req.body.diet;
+  const dishType = req.body.dishType;
+  const mealType = req.body.mealType;
+  const cuisineType = req.body.cuisineType;
+  const allergies = req.body.allergies;
+  const caloriesFrom = req.body.caloriesFrom;
+  const caloriesTo = req.body.caloriesTo;
+  const IngredientsUpTo = req.body.ingredientsUpTo;
 
   let url = `https://api.edamam.com/api/recipes/v2?type=public&q=${ingredient}&app_id=10880cda&app_key=e35c7e28e89152af9ab4b7a40d2d7344`;
 
@@ -341,7 +339,6 @@ const getReceipes = async (req, res) => {
   try {
     const result = await request(options);
     if (result.hits.length > 0) {
-      console.log("server test");
       res.status(200).json({ status: "200", data: result });
     } else {
       res.status(400).json({ status: 400, message: "err getting receipe" });
@@ -377,7 +374,6 @@ const getIngredients = async (req, res) => {
 };
 
 const getLocations = async (req, res) => {
-  console.log(req.params.location);
   const location = req.params.location;
 
   let url = "https://travel-advisor.p.rapidapi.com/locations/v2/auto-complete";
@@ -388,7 +384,7 @@ const getLocations = async (req, res) => {
     qs: { query: `${location}`, lang: "en_US", units: "km" },
     headers: {
       "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-      "X-RapidAPI-Key": "003d0a2ecbmsh570c270d01307ecp1002b8jsnfb351b5375eb",
+      "X-RapidAPI-Key": "25c748514emsh2c3de03a1abb44ap14639fjsn411cd9e23f93",
     },
     json: true,
   };
@@ -423,7 +419,7 @@ const getRestaurants = async (req, res) => {
     },
     headers: {
       "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-      "X-RapidAPI-Key": "003d0a2ecbmsh570c270d01307ecp1002b8jsnfb351b5375eb",
+      "X-RapidAPI-Key": "25c748514emsh2c3de03a1abb44ap14639fjsn411cd9e23f93",
     },
     json: true,
   };
@@ -455,7 +451,7 @@ const getRestaurant = async (req, res) => {
     },
     headers: {
       "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-      "X-RapidAPI-Key": "003d0a2ecbmsh570c270d01307ecp1002b8jsnfb351b5375eb",
+      "X-RapidAPI-Key": "25c748514emsh2c3de03a1abb44ap14639fjsn411cd9e23f93",
     },
     json: true,
   };

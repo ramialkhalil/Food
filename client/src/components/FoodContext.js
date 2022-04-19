@@ -32,7 +32,6 @@ const FoodProvider = ({ children }) => {
 
   const AddRestaurantToWishList = (restaurant) => {
     if (user) {
-      console.log(user);
       fetch(`/api/addRestaurantToUser`, {
         method: "PATCH",
         headers: {
@@ -45,25 +44,13 @@ const FoodProvider = ({ children }) => {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result);
           getUser();
-          // setUser({
-          //   ...user,
-          //   restaurants: [
-          //     ...user.restaurants,
-          //     { restaurantName, locationId, restaurantId },
-          //   ],
-          // });
-          //setReload(!reload);
         });
-    } else {
-      console.log("please login before");
     }
   };
 
   const removeRestaurantFromList = (restaurant) => {
     if (user) {
-      console.log(user);
       fetch(`/api/removeRestaurantFromUser`, {
         method: "PATCH",
         headers: {
@@ -77,16 +64,14 @@ const FoodProvider = ({ children }) => {
         .then((res) => res.json())
         .then((result) => {
           if (result.data) {
-            console.log(result);
             getUser();
-            //setReload(!reload);
           }
         });
     }
   };
+
   const AddReceipeToList = (receipe) => {
     if (user) {
-      console.log(user);
       fetch(`/api/addReceipeToUser`, {
         method: "PATCH",
         headers: {
@@ -99,7 +84,6 @@ const FoodProvider = ({ children }) => {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result);
           getUser();
           setReload(!reload);
         });
@@ -108,7 +92,6 @@ const FoodProvider = ({ children }) => {
 
   const removeReceipeFromList = (receipe) => {
     if (user) {
-      console.log(user);
       fetch(`/api/removeReceipeFromUser`, {
         method: "PATCH",
         headers: {
@@ -122,7 +105,6 @@ const FoodProvider = ({ children }) => {
         .then((res) => res.json())
         .then((result) => {
           if (result.data) {
-            console.log(result);
             getUser();
           }
         });

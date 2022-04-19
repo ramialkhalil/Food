@@ -22,7 +22,6 @@ const Location = () => {
         const cityName = e.detailsV2.names.name;
         const location = e.detailsV2.names.longOnlyHierarchyTypeaheadV2;
         const cityType = e.detailsV2.placeType;
-
         const cityDetails = {
           geocode: { latitude, longitude },
           locationId: locationId,
@@ -45,17 +44,24 @@ const Location = () => {
         }
       });
   };
-  console.log(citiesDetails);
+
   return (
     <>
       <FORM>
         <input
+          required
           type="text"
           placeholder="city"
           value={city}
           onChange={(e) => handleChange(e.target.value)}
         />
-        <button onClick={(e) => clickHandler(e)}>Find</button>
+        {city ? (
+          <BUTTON onClick={(e) => clickHandler(e)}>Find</BUTTON>
+        ) : (
+          <BUTTON disabled onClick={(e) => clickHandler(e)}>
+            Find
+          </BUTTON>
+        )}
       </FORM>
       {!!citiesDetails.length && (
         <Wrapper>
@@ -79,13 +85,28 @@ const FORM = styled.form`
   display: flex;
   gap: 10px;
 `;
+
+const BUTTON = styled.button`
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: green;
+  border: solid green;
+  border-radius: 10px;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 const LINK = styled(Link)`
-  color: black;
+  color: white;
   text-decoration: none;
   font-size: 16px;
   opacity: 0.5;

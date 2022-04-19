@@ -49,7 +49,6 @@ const AllReceipes = () => {
 
   const doneHandler = (e) => {
     e.preventDefault();
-
     fetch(`/api/get-receipes/${ingredient}`, {
       method: "PATCH",
       headers: {
@@ -68,13 +67,10 @@ const AllReceipes = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("test");
         if (result.data) {
-          console.log("test2");
           sessionStorage.setItem("receipes", JSON.stringify(result.data));
           history.push(`/receipes/${ingredient}`);
         } else if (result.status === 400) {
-          console.log(result.message);
         }
       });
   };
@@ -84,7 +80,7 @@ const AllReceipes = () => {
       <FORM onChange={setFormData}>
         <HEADER>
           <div>{`${ingredient}`}</div>
-          <button onClick={(e) => doneHandler(e)}>Find receipes</button>
+          <BUTTON onClick={(e) => doneHandler(e)}>Find recipes</BUTTON>
         </HEADER>
         <BODY>
           <DIV>
@@ -512,9 +508,10 @@ const DIV = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: whitesmoke;
+  background-color: #8fbc8f;
   height: 100%;
   padding: 10px;
+  color: white;
 `;
 
 const SUBDIV = styled.div`
@@ -522,14 +519,25 @@ const SUBDIV = styled.div`
   gap: 5px;
 `;
 
+const BUTTON = styled.button`
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: green;
+  border: solid green;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+`;
+
 const HEADER = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  color: black;
   font-size: 32px;
   font-weight: bold;
   padding-bottom: 10px;
-  background-color: whitesmoke;
+  background-color: #8fbc8f;
+  color: white;
 `;

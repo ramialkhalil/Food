@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import Restaurant from "./Restaurant";
@@ -15,11 +15,11 @@ const Restaurants = () => {
       .then((res) => res.json())
       .then((result) => {
         if (result.data) {
-          console.log(result.data);
           setRestaurants(result.data);
         }
       });
   }, []);
+
   if (!restaurants) {
     return <></>;
   }
@@ -46,10 +46,17 @@ const HEADER = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: black;
-  font-size: 32px;
-  font-weight: bold;
   padding-bottom: 10px;
+  & div {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    background-color: green;
+    border: solid green;
+    border-radius: 10px;
+    padding: 10px;
+    border: solid #8fbc8f;
+  }
 `;
 
 const Wrapper = styled.div`

@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useHistory, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FoodContext } from "./FoodContext";
-import Location from "./Location";
+import { MdFoodBank, MdLogout } from "react-icons/md";
 
 const Header = () => {
   const { user, setUser } = useContext(FoodContext);
-
   const history = useHistory();
 
   const logOut = () => {
@@ -14,18 +13,47 @@ const Header = () => {
     localStorage.removeItem("login");
     history.push("/");
   };
+
   return (
     <Wrapper>
-      <div></div>
+      <Nav
+        to="/"
+        style={{ display: "flex", color: "green", alignItems: "center" }}
+      >
+        <LOGO />
+        <div
+          style={{
+            border: "solid",
+            background: "green",
+            color: "white",
+            borderRadius: "10px",
+            padding: "5px",
+          }}
+        >
+          FoodAdvisor
+        </div>
+      </Nav>
       <NavItem>
-        <Nav to="/">Home</Nav>
         {user ? (
           <USER>
             <Nav to="/profile">{`Hello, ${user.userName}`}</Nav>
-            <div onClick={logOut}>logout</div>
+            <div onClick={logOut} style={{ color: "green" }}>
+              <MdLogout />
+            </div>
           </USER>
         ) : (
-          <Nav to="/login">Login</Nav>
+          <Nav
+            to="/login"
+            style={{
+              border: "solid",
+              background: "green",
+              color: "white",
+              borderRadius: "10px",
+              padding: "5px",
+            }}
+          >
+            Login
+          </Nav>
         )}
       </NavItem>
     </Wrapper>
@@ -43,6 +71,7 @@ const USER = styled.div`
     cursor: pointer;
   }
 `;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -57,10 +86,14 @@ const NavItem = styled.div`
 `;
 
 const Nav = styled(NavLink)`
-  color: black;
+  color: green;
   text-decoration: none;
   font-size: 32px;
   font-weight: bold;
+`;
+
+const LOGO = styled(MdFoodBank)`
+  font-size: 60px;
 `;
 
 export default Header;

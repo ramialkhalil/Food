@@ -19,7 +19,6 @@ const SignUp = () => {
 
   const signUpHandler = (e) => {
     e.preventDefault();
-
     fetch(`/api/add-user`, {
       method: "PATCH",
       headers: {
@@ -37,7 +36,6 @@ const SignUp = () => {
         if (result.data) {
           history.push(`/login`);
         } else if (result.status === 400) {
-          console.log(result.message);
           setError(result.message);
         }
       });
@@ -67,9 +65,15 @@ const SignUp = () => {
           <label>Email</label>
           <input type="email" name="email" placeholder="Email" required />
         </DIV>
-        <BUTTON>
-          <button>SignUp</button>
-        </BUTTON>
+        {userName && password && repeatPassword && email ? (
+          <BUTTONDIV>
+            <BUTTON>SignUp</BUTTON>
+          </BUTTONDIV>
+        ) : (
+          <BUTTONDIV>
+            <BUTTON disabled>SignUp</BUTTON>
+          </BUTTONDIV>
+        )}
         {error && <ERROR>{error}</ERROR>}
       </FORM>
     </>
@@ -83,8 +87,24 @@ const ERROR = styled.div`
   justify-content: center;
   color: red;
 `;
+
+const BUTTON = styled.button`
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: green;
+  border: solid green;
+  border-radius: 10px;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+`;
+
 const FORM = styled.form`
-  background-color: whitesmoke;
+  background-color: #8fbc8f;
+  color: white;
   padding: 10px;
   width: 320px;
   position: absolute;
@@ -102,7 +122,8 @@ const DIV = styled.div`
   gap: 10px;
   padding: 10px;
 `;
-const BUTTON = styled.div`
+
+const BUTTONDIV = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

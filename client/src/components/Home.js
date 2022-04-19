@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Location from "./Location";
 import Receipes from "./Receipes";
@@ -14,7 +13,7 @@ const Home = () => {
         </SUBDIV>
       </DIV>
       <DIV>
-        <div>Find Top Receipes</div>
+        <div>Find Top Recipes</div>
         <SUBDIV>
           <div>Enter ingredient name</div>
           <Receipes />
@@ -33,6 +32,7 @@ const SUBDIV = styled.div`
   padding: 15px;
   gap: 10px;
 `;
+
 const DIV = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,12 +45,15 @@ const DIV = styled.div`
   font-size: 32px;
   font-weight: bold;
   gap: 15px;
-  background-color: whitesmoke;
+  background-color: #8fbc8f;
+  border-radius: 10px;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 15px;
   gap: 15px;
+  color: white;
 `;

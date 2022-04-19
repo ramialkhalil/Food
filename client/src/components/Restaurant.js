@@ -7,7 +7,7 @@ const Restaurant = ({ element, locationId }) => {
       {element.name && (
         <DIV>
           <SUBDIV>
-            <img src={element.photo?.images?.small?.url} />
+            <img src={element.photo?.images?.small?.url} alt={element.name} />
           </SUBDIV>
           <SUBDIV>
             <LINK to={`/find-restaurant/${locationId}/${element.location_id}`}>
@@ -42,13 +42,27 @@ const DIV = styled.div`
   align-items: center;
   width: 275px;
   height: 300px;
-  background-color: whitesmoke;
+  background-color: #8fbc8f;
+  color: white;
+  border-radius: 10px;
 `;
 
 const LINK = styled(Link)`
-  color: black;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
-  padding-left: 5px;
+  color: white;
+  background-color: green;
+  border: solid green;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  padding: 10px;
+
+  box-shadow: inset 0 0 0 0 green;
+  transition: color 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
+  &:hover {
+    box-shadow: inset 300px 0 0 0 white;
+    color: green;
+  }
 `;
