@@ -22,7 +22,9 @@ const Profile = () => {
             {user.restaurants &&
               user.restaurants.map((el) => {
                 return (
-                  <Restaurant element={el} locationId={el.ranking_geo_id} />
+                  <RDIV>
+                    <Restaurant element={el} locationId={el.ranking_geo_id} />
+                  </RDIV>
                 );
               })}
           </div>
@@ -35,7 +37,11 @@ const Profile = () => {
           </HEADER>
           {user.receipes &&
             user.receipes.map((element) => {
-              return <Receipe element={element} />;
+              return (
+                <RDIV>
+                  <Receipe element={element} />
+                </RDIV>
+              );
             })}
         </Wrapper>
       </DIV>
@@ -44,12 +50,16 @@ const Profile = () => {
 };
 
 export default Profile;
+const RDIV = styled.div`
+  margin-bottom: 50px;
+  border-bottom: solid white;
+`;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #8fbc8f;
-  margin: 5px;
+  margin: 10px;
   padding: 10px;
   width: 50%;
   border-radius: 10px;

@@ -7,7 +7,7 @@ const Restaurant = ({ element, locationId }) => {
       {element.name && (
         <DIV>
           <SUBDIV>
-            <img src={element.photo?.images?.small?.url} alt={element.name} />
+            <IMAGE src={element.photo?.images?.small?.url} alt={element.name} />
           </SUBDIV>
           <SUBDIV>
             <LINK to={`/find-restaurant/${locationId}/${element.location_id}`}>
@@ -29,6 +29,14 @@ const Restaurant = ({ element, locationId }) => {
 };
 export default Restaurant;
 
+const IMAGE = styled.img`
+  max-width: 100%;
+  min-width: 275px;
+  max-height: 200px;
+  min-height: 200px;
+  border-radius: 10px 10px 0px 0px;
+`;
+
 const SUBDIV = styled.div`
   display: flex;
   flex-direction: row;
@@ -41,7 +49,7 @@ const DIV = styled.div`
   gap: 10px;
   align-items: center;
   width: 275px;
-  height: 300px;
+  height: 340px;
   background-color: #8fbc8f;
   color: white;
   border-radius: 10px;
